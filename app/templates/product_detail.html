@@ -1,0 +1,627 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}
+    {{ product.name }} | My Store
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PRODUCT DETAIL
+    ========================= */
+
+    .product-detail {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 35px;
+
+        padding: 25px;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .06);
+    }
+
+
+    /* =========================
+       IMAGE
+    ========================= */
+
+    .product-detail-image {
+        width: 100%;
+        height: 420px;
+
+        padding: 20px;
+
+        background: #fafafa;
+
+        border-radius: 13px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .product-detail-image img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        transition: transform .3s ease;
+    }
+
+    .product-detail-image:hover img {
+        transform: scale(1.03);
+    }
+
+    .no-image {
+        color: #9ca3af;
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       PRODUCT INFO
+    ========================= */
+
+    .product-info {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+
+    .product-category {
+        display: inline-block;
+        width: fit-content;
+
+        padding: 5px 10px;
+        margin-bottom: 12px;
+
+        border-radius: 20px;
+
+        background: #f3f4f6;
+        color: #6b7280;
+
+        font-size: 12px;
+    }
+
+
+    .product-title {
+        margin-bottom: 14px;
+
+        color: #111827;
+
+        font-size: 32px;
+        line-height: 1.3;
+    }
+
+
+    .product-description {
+        margin-bottom: 18px;
+
+        color: #6b7280;
+
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+
+    /* =========================
+       PRICE
+    ========================= */
+
+    .price-box {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        margin: 15px 0;
+    }
+
+
+    .main-price,
+    .discount-price {
+        color: #111827;
+
+        font-size: 26px;
+        font-weight: 800;
+    }
+
+
+    .discount-price {
+        color: #e11d48;
+    }
+
+
+    .old-price {
+        color: #9ca3af;
+
+        font-size: 14px;
+
+        text-decoration: line-through;
+    }
+
+
+    /* =========================
+       STOCK
+    ========================= */
+
+    .stock {
+        margin: 10px 0 20px;
+
+        color: #16a34a;
+
+        font-size: 13px;
+    }
+
+
+    .out-of-stock {
+        color: #dc2626;
+    }
+
+
+    /* =========================
+       DESCRIPTION BOX
+    ========================= */
+
+    .product-description-section {
+        margin: 12px 0 5px;
+
+        padding: 16px;
+
+        background: #f9fafb;
+
+        border: 1px solid #f0f1f3;
+        border-radius: 10px;
+    }
+
+
+    .product-description-section h2 {
+        margin-bottom: 7px;
+
+        color: #111827;
+
+        font-size: 15px;
+    }
+
+
+    .product-description-section p {
+        color: #6b7280;
+
+        font-size: 13px;
+
+        line-height: 1.8;
+    }
+
+
+    .empty-description {
+        color: #9ca3af !important;
+    }
+
+
+    /* =========================
+       BUY BUTTON
+    ========================= */
+
+    .buy-button {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+
+        min-height: 46px;
+
+        padding: 12px 16px;
+
+        border: none;
+        border-radius: 10px;
+
+        background: #111827;
+        color: white;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition:
+            background .2s ease,
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .buy-form {
+        width: 100%;
+    }
+
+
+    .buy-button:hover {
+        background: #374151;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 20px rgba(0,0,0,.12);
+    }
+
+
+    .buy-button:disabled {
+        background: #9ca3af;
+
+        cursor: not-allowed;
+
+        transform: none;
+
+        box-shadow: none;
+    }
+
+
+    /* =========================
+       TABLET
+    ========================= */
+
+    @media (max-width: 800px) {
+
+        .product-detail {
+            grid-template-columns: 1fr;
+
+            gap: 25px;
+
+            padding: 20px;
+        }
+
+
+        .product-detail-image {
+            height: 350px;
+        }
+
+
+        .product-info {
+            justify-content: flex-start;
+        }
+
+
+        .product-title {
+            font-size: 28px;
+        }
+
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        .product-detail {
+            gap: 20px;
+
+            padding: 14px;
+
+            border-radius: 13px;
+        }
+
+
+        .product-detail-image {
+            height: 270px;
+
+            padding: 14px;
+
+            border-radius: 11px;
+        }
+
+
+        .product-category {
+            margin-bottom: 9px;
+
+            font-size: 11px;
+        }
+
+
+        .product-title {
+            margin-bottom: 10px;
+
+            font-size: 24px;
+        }
+
+
+        .product-description {
+            margin-bottom: 12px;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+
+        .price-box {
+            margin: 12px 0;
+        }
+
+
+        .main-price,
+        .discount-price {
+            font-size: 23px;
+        }
+
+
+        .old-price {
+            font-size: 12px;
+        }
+
+
+        .stock {
+            margin: 8px 0 15px;
+
+            font-size: 12px;
+        }
+
+
+        .product-description-section {
+            padding: 13px;
+        }
+
+
+        .product-description-section h2 {
+            font-size: 14px;
+        }
+
+
+        .product-description-section p {
+            font-size: 12px;
+        }
+
+
+        .buy-button {
+            min-height: 44px;
+
+            font-size: 13px;
+        }
+
+    }
+
+
+    /* =========================
+       SMALL MOBILE
+    ========================= */
+
+    @media (max-width: 400px) {
+
+        .product-detail-image {
+            height: 235px;
+        }
+
+
+        .product-title {
+            font-size: 22px;
+        }
+
+
+        .main-price,
+        .discount-price {
+            font-size: 21px;
+        }
+
+    }
+
+    /* Product-page refinements */
+    .product-detail { border-color: #e0e0e2; box-shadow: 0 2px 12px rgba(31, 41, 55, .06); }
+    .product-detail-image { background: #fff; border: 1px solid #f0f0f1; }
+    .product-category { background: #fef2f3; color: #c6283d; }
+    .discount-price { color: #ef4056; }
+    .buy-button { background: #232f3e; border-radius: 8px; }
+    .buy-button:hover { background: #111827; }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="product-detail">
+
+
+    <!-- =========================
+         PRODUCT IMAGE
+    ========================= -->
+
+    <div class="product-detail-image">
+
+        {% if product.image %}
+
+            <img
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+                loading="lazy"
+            >
+
+        {% else %}
+
+            <span class="no-image">
+                No image available
+            </span>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =========================
+         PRODUCT INFORMATION
+    ========================= -->
+
+    <div class="product-info">
+
+
+        <!-- Category -->
+
+        {% if product.category %}
+
+            <span class="product-category">
+                {{ product.category.name }}
+            </span>
+
+        {% endif %}
+
+
+        <!-- Product Name -->
+
+        <h1 class="product-title">
+            {{ product.name }}
+        </h1>
+
+
+        <!-- Short Description -->
+
+        {% if product.description %}
+
+            <p class="product-description">
+                {{ product.description }}
+            </p>
+
+        {% else %}
+
+            <p class="product-description">
+                No description available for this product.
+            </p>
+
+        {% endif %}
+
+
+        <!-- =========================
+             PRICE
+        ========================= -->
+
+        <div class="price-box">
+
+            {% if product.discount_price %}
+
+                <span class="discount-price">
+                    {{ product.discount_price|intcomma }}
+                </span>
+
+                <span class="old-price">
+                    {{ product.price|intcomma }}
+                </span>
+
+            {% else %}
+
+                <span class="main-price">
+                    {{ product.price|intcomma }}
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             STOCK
+        ========================= -->
+
+        {% if product.stock > 0 %}
+
+            <div class="stock">
+
+                ✓ In stock
+
+                <br>
+
+                Available quantity:
+                {{ product.stock }}
+
+            </div>
+
+        {% else %}
+
+            <div class="stock out-of-stock">
+
+                ✕ Out of stock
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             FULL DESCRIPTION
+        ========================= -->
+
+        <div class="product-description-section">
+
+            <h2>
+                Product Description / توضیحات محصول
+            </h2>
+
+
+            {% if product.description %}
+
+                <p>
+                    {{ product.description }}
+                </p>
+
+            {% else %}
+
+                <p class="empty-description">
+                    No description available for this product.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             ADD TO CART
+        ========================= -->
+
+        {% if product.stock > 0 %}
+
+            <form
+                method="post"
+                action="{% url 'add_to_cart' product.id %}"
+                class="buy-form"
+            >
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="buy-button button button-dark"
+                >
+                    Add to Cart / افزودن به سبد
+                </button>
+            </form>
+
+        {% else %}
+
+            <button
+                class="buy-button button button-dark"
+                disabled
+            >
+                Out of Stock / ناموجود
+            </button>
+
+        {% endif %}
+
+
+    </div>
+
+</div>
+
+{% endblock %}

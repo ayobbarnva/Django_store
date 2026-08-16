@@ -1,0 +1,903 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+
+{% block title %}
+    My Store | Home
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+        position: relative;
+
+        padding: 65px 42px;
+        margin-bottom: 38px;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        background: linear-gradient(
+            135deg,
+            #111827,
+            #374151
+        );
+
+        color: white;
+
+        box-shadow:
+            0 12px 35px rgba(0, 0, 0, 0.10);
+    }
+
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+
+        max-width: 680px;
+    }
+
+
+    .hero-badge {
+        display: inline-block;
+
+        padding: 6px 12px;
+        margin-bottom: 15px;
+
+        border-radius: 20px;
+
+        background: rgba(255, 255, 255, 0.10);
+
+        color: #d1d5db;
+
+        font-size: 12px;
+    }
+
+
+    .hero h1 {
+        margin-bottom: 15px;
+
+        color: white;
+
+        font-size: 40px;
+        line-height: 1.25;
+    }
+
+
+    .hero p {
+        max-width: 600px;
+
+        margin-bottom: 24px;
+
+        color: #d1d5db;
+
+        font-size: 15px;
+
+        line-height: 1.9;
+    }
+
+
+    .hero-button {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 11px 21px;
+
+        border-radius: 9px;
+
+        background: white;
+        color: #111827;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        transition: 0.2s ease;
+    }
+
+
+    .hero-button:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 20px rgba(255, 255, 255, 0.12);
+    }
+
+
+    /* =====================================================
+       PRODUCTS HEADER
+    ===================================================== */
+
+    .products-header {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 15px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .products-header h2 {
+        color: #111827;
+
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+
+    .products-count {
+        color: #9ca3af;
+
+        font-size: 13px;
+
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       PRODUCTS GRID
+    ===================================================== */
+
+    .products-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(205px, 1fr)
+            );
+
+        gap: 15px;
+    }
+
+
+    /* =====================================================
+       PRODUCT CARD
+    ===================================================== */
+
+    .product-card {
+        min-width: 0;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 12px;
+
+        overflow: hidden;
+
+        box-shadow: none;
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+
+    .product-card:hover {
+        transform: translateY(-3px);
+
+        border-color: #d1d5db;
+
+        box-shadow:
+            0 9px 25px rgba(0, 0, 0, 0.08);
+    }
+
+
+    /* =====================================================
+       PRODUCT IMAGE
+    ===================================================== */
+
+    .product-image {
+        width: 100%;
+        height: 175px;
+
+        padding: 12px;
+
+        background: #ffffff;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        transition:
+            transform 0.25s ease;
+    }
+
+
+    .product-card:hover
+    .product-image img {
+        transform: scale(1.03);
+    }
+
+
+    .no-image {
+        color: #9ca3af;
+
+        font-size: 13px;
+
+        text-align: center;
+    }
+
+
+    /* =====================================================
+       PRODUCT INFO
+    ===================================================== */
+
+    .product-info {
+        padding: 14px;
+    }
+
+
+    .product-info h3 {
+        margin-bottom: 5px;
+
+        color: #111827;
+
+        font-size: 16px;
+        font-weight: 700;
+
+        line-height: 1.5;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+
+    .category {
+        display: block;
+
+        margin-bottom: 9px;
+
+        color: #9ca3af;
+
+        font-size: 12px;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+
+    /* =====================================================
+       PRICE
+    ===================================================== */
+
+    .price-box {
+        display: flex;
+
+        align-items: center;
+
+        flex-wrap: wrap;
+
+        gap: 4px;
+
+        margin: 10px 0;
+    }
+
+
+    .price {
+        color: #111827;
+
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+
+    .discount-price {
+        color: #e11d48;
+    }
+
+
+    .old-price {
+        color: #9ca3af;
+
+        font-size: 11px;
+
+        text-decoration: line-through;
+    }
+
+
+    /* =====================================================
+       STOCK
+    ===================================================== */
+
+    .stock {
+        margin-bottom: 11px;
+
+        color: #16a34a;
+
+        font-size: 12px;
+    }
+
+
+    .out-of-stock {
+        color: #dc2626;
+    }
+
+
+    /* =====================================================
+       PRODUCT BUTTON
+    ===================================================== */
+
+    .product-button {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+
+        min-height: 36px;
+
+        padding: 8px;
+
+        border-radius: 8px;
+
+        background: #111827;
+        color: white;
+
+        text-align: center;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+
+    .product-button:hover {
+        background: #374151;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       EMPTY PRODUCTS
+    ===================================================== */
+
+    .empty-products {
+        padding: 60px 20px;
+
+        background: white;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 14px;
+
+        text-align: center;
+    }
+
+
+    .empty-products h3 {
+        margin-bottom: 7px;
+
+        color: #111827;
+
+        font-size: 20px;
+    }
+
+
+    .empty-products p {
+        color: #9ca3af;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       TABLET
+    ===================================================== */
+
+    @media (max-width: 800px) {
+
+        .hero {
+            padding: 55px 30px;
+        }
+
+
+        .hero h1 {
+            font-size: 34px;
+        }
+
+
+        .products-grid {
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
+
+            gap: 12px;
+        }
+
+
+        .product-image {
+            height: 160px;
+        }
+
+
+        .product-info {
+            padding: 12px;
+        }
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .hero {
+            padding: 42px 20px;
+
+            margin-bottom: 28px;
+
+            border-radius: 16px;
+        }
+
+
+        .hero-badge {
+            margin-bottom: 12px;
+
+            padding: 5px 10px;
+
+            font-size: 10px;
+        }
+
+
+        .hero h1 {
+            margin-bottom: 13px;
+
+            font-size: 28px;
+
+            line-height: 1.3;
+        }
+
+
+        .hero p {
+            margin-bottom: 20px;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+
+        .hero-button {
+            width: 100%;
+
+            padding: 11px;
+
+            font-size: 13px;
+        }
+
+
+        .products-header {
+            margin-bottom: 14px;
+        }
+
+
+        .products-header h2 {
+            font-size: 21px;
+        }
+
+
+        .products-count {
+            font-size: 11px;
+        }
+
+
+        .products-grid {
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 10px;
+        }
+
+
+        .product-image {
+            height: 145px;
+
+            padding: 9px;
+        }
+
+
+        .product-info {
+            padding: 10px;
+        }
+
+
+        .product-info h3 {
+            font-size: 14px;
+
+            line-height: 1.4;
+        }
+
+
+        .category {
+            margin-bottom: 7px;
+
+            font-size: 10px;
+        }
+
+
+        .price-box {
+            margin: 8px 0;
+        }
+
+
+        .price {
+            font-size: 15px;
+        }
+
+
+        .old-price {
+            font-size: 10px;
+        }
+
+
+        .stock {
+            margin-bottom: 9px;
+
+            font-size: 10px;
+        }
+
+
+        .product-button {
+            min-height: 34px;
+
+            padding: 7px;
+
+            font-size: 11px;
+        }
+
+    }
+
+
+    /* =====================================================
+       SMALL MOBILE
+    ===================================================== */
+
+    @media (max-width: 400px) {
+
+        .hero {
+            padding: 36px 17px;
+        }
+
+
+        .hero h1 {
+            font-size: 25px;
+        }
+
+
+        .hero p {
+            font-size: 12px;
+        }
+
+
+        .products-header h2 {
+            font-size: 19px;
+        }
+
+
+        .products-count {
+            font-size: 10px;
+        }
+
+
+        .product-image {
+            height: 130px;
+
+            padding: 8px;
+        }
+
+
+        .product-info {
+            padding: 9px;
+        }
+
+
+        .product-info h3 {
+            font-size: 13px;
+        }
+
+
+        .price {
+            font-size: 14px;
+        }
+
+
+        .product-button {
+            font-size: 10px;
+        }
+
+    }
+
+    /* Marketplace-style product browsing */
+    .hero { padding: 54px 46px; background: linear-gradient(120deg, #303846 0%, #202b3a 58%, #ef4056 180%); border: 1px solid rgba(255, 255, 255, .12); }
+    .products-grid { gap: 16px; }
+    .product-card { border-color: #e0e0e2; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, .04); }
+    .product-card:hover { border-color: #d7d7db; box-shadow: 0 8px 24px rgba(31, 41, 55, .10); }
+    .product-image { height: 190px; background: #fff; border-bottom: 1px solid #f0f0f1; }
+    .price { color: #232f3e; }
+    .discount-price { color: #ef4056; }
+    .product-button { border: 1px solid #232f3e; background: #232f3e; border-radius: 8px; }
+    .product-button:hover { background: #111827; }
+    @media (max-width: 600px) { .hero { padding: 34px 20px; } .product-image { height: 150px; } }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+
+        <span class="hero-badge">
+            Welcome to My Store / به فروشگاه ما خوش آمدید
+        </span>
+
+
+        <h1>
+            Everything you need, in one place. / هر آنچه نیاز دارید، یک‌جا.
+        </h1>
+
+
+        <p>
+            Discover quality products with a clean, fast and simple shopping experience. / تجربه‌ای ساده، سریع و مطمئن از خرید.
+        </p>
+
+
+        <a
+            href="#products"
+            class="hero-button button button-light"
+        >
+            Browse Products / مشاهده محصولات
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PRODUCTS
+===================================================== -->
+
+<section id="products">
+
+
+    <div class="products-header">
+
+
+        <h2>
+            Latest Products / جدیدترین محصولات
+        </h2>
+
+
+        <span class="products-count">
+
+            {{ data|length }}
+
+            products / محصول
+
+        </span>
+
+
+    </div>
+
+
+
+    {% if data %}
+
+
+        <div class="products-grid">
+
+
+            {% for product in data %}
+
+
+                <article class="product-card">
+
+
+                    <!-- Product Image -->
+
+                    <div class="product-image">
+
+
+                        {% if product.image %}
+
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                                loading="lazy"
+                            >
+
+                        {% else %}
+
+                            <span class="no-image">
+                                No image available
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+
+                    <!-- Product Information -->
+
+                    <div class="product-info">
+
+
+                        <h3>
+                            {{ product.name }}
+                        </h3>
+
+
+                        {% if product.category %}
+
+                            <span class="category">
+                                {{ product.category.name }}
+                            </span>
+
+                        {% endif %}
+
+
+
+                        <!-- Price -->
+
+                        <div class="price-box">
+
+
+                            {% if product.discount_price %}
+
+
+                                <span
+                                    class="price discount-price"
+                                >
+                                    {{ product.discount_price|intcomma }}
+                                </span>
+
+
+                                <span class="old-price">
+                                    {{ product.price|intcomma }}
+                                </span>
+
+
+                            {% else %}
+
+
+                                <span class="price">
+                                    {{ product.price|intcomma }}
+                                </span>
+
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <!-- Stock -->
+
+                        {% if product.stock > 0 %}
+
+
+                            <div class="stock">
+                                ✓ In stock
+                            </div>
+
+
+                        {% else %}
+
+
+                            <div class="stock out-of-stock">
+                                ✕ Out of stock
+                            </div>
+
+
+                        {% endif %}
+
+
+
+                        <!-- Product Detail -->
+
+                        <a
+                            href="{% url 'product_detail' product.id %}"
+                            class="product-button"
+                        >
+                            View Product / مشاهده محصول
+                        </a>
+
+
+                    </div>
+
+
+                </article>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-products">
+
+
+            <h3>
+                No products available
+            </h3>
+
+
+            <p>
+                New products will be added soon.
+            </p>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</section>
+
+
+{% endblock %}

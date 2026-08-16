@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    My Profile | My Store
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .profile-page {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-cover {
+        height: 180px;
+        background: linear-gradient(
+            135deg,
+            #111827,
+            #374151
+        );
+    }
+
+    .profile-main {
+        padding: 0 35px 35px;
+    }
+
+    .profile-avatar-wrapper {
+        margin-top: -65px;
+        margin-bottom: 20px;
+    }
+
+    .profile-avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 6px solid white;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .default-avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        border: 6px solid white;
+        background: #111827;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 42px;
+        font-weight: 700;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-name {
+        color: #111827;
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+
+    .profile-phone {
+        color: #9ca3af;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .profile-section {
+        margin-top: 30px;
+    }
+
+    .profile-section-title {
+        color: #111827;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .profile-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .info-box {
+        padding: 18px;
+        background: #f9fafb;
+        border: 1px solid #f3f4f6;
+        border-radius: 12px;
+    }
+
+    .info-label {
+        display: block;
+        color: #9ca3af;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        color: #111827;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .profile-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .profile-button {
+        flex: 1;
+        padding: 12px;
+        border-radius: 10px;
+        text-align: center;
+        transition: 0.2s ease;
+    }
+
+    .edit-button {
+        background: #111827;
+        color: white;
+    }
+
+    .edit-button:hover {
+        background: #374151;
+    }
+
+    .home-button {
+        background: #f3f4f6;
+        color: #111827;
+    }
+
+    .home-button:hover {
+        background: #e5e7eb;
+    }
+
+    @media (max-width: 600px) {
+
+        .profile-main {
+            padding: 0 20px 25px;
+        }
+
+        .profile-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-actions {
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 24px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="profile-page">
+
+    <div class="profile-card">
+
+
+        <div class="profile-cover"></div>
+
+
+        <div class="profile-main">
+
+
+            <div class="profile-avatar-wrapper">
+
+
+                {% if user.profile_image %}
+
+                    <img
+                        src="{{ user.profile_image.url }}"
+                        alt="Profile"
+                        class="profile-avatar"
+                    >
+
+                {% else %}
+
+                    <div class="default-avatar">
+                        {{ user.phone_number|first|upper }}
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <h1 class="profile-name">
+
+                {% if user.first_name or user.last_name %}
+
+                    {{ user.first_name }}
+                    {{ user.last_name }}
+
+                {% else %}
+
+                    User / کاربر
+
+                {% endif %}
+
+            </h1>
+
+
+            <div class="profile-phone">
+                {{ user.phone_number }}
+            </div>
+
+
+            <section class="profile-section">
+
+                <h2 class="profile-section-title">
+                    Personal Information / اطلاعات شخصی
+                </h2>
+
+
+                <div class="profile-info-grid">
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            First Name / نام
+                        </span>
+
+                        <span class="info-value">
+
+                            {% if user.first_name %}
+                                {{ user.first_name }}
+                            {% else %}
+                                Not set / ثبت نشده
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Last Name / نام خانوادگی
+                        </span>
+
+                        <span class="info-value">
+
+                            {% if user.last_name %}
+                                {{ user.last_name }}
+                            {% else %}
+                                Not set / ثبت نشده
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Phone Number / شماره همراه
+                        </span>
+
+                        <span class="info-value">
+                            {{ user.phone_number }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Member Since / تاریخ عضویت
+                        </span>
+
+                        <span class="info-value">
+                            {{ user.date_joined|date:"F j, Y" }}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <div class="profile-actions">
+
+                <a
+                    href="{% url 'edit' %}"
+                    class="profile-button edit-button"
+                >
+                    Edit Profile / ویرایش پروفایل
+                </a>
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="profile-button home-button"
+                >
+                    Back to Home / بازگشت به خانه
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

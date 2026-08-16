@@ -1,0 +1,1210 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <script>
+        (function () {
+            var savedLanguage = localStorage.getItem('store-language') || 'fa';
+            var savedTheme = localStorage.getItem('store-theme') || 'light';
+            document.documentElement.lang = savedLanguage;
+            document.documentElement.dir = 'ltr';
+            document.documentElement.dataset.theme = savedTheme;
+        }());
+    </script>
+
+    <title>
+        {% block title %}
+            My Store
+        {% endblock %}
+    </title>
+
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+
+        /* Logo */
+
+        .logo {
+            font-size: 23px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+
+        /* Navigation */
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 22px;
+            list-style: none;
+        }
+
+        .nav-links > li > a {
+            color: #d1d5db;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav-links > li > a:hover {
+            color: white;
+        }
+
+
+        /* =========================
+           PROFILE MENU
+        ========================= */
+
+        .profile-menu {
+            position: relative;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 4px 10px 4px 4px;
+
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 30px;
+
+            background: rgba(255,255,255,0.06);
+            color: white;
+
+            cursor: pointer;
+
+            appearance: none;
+            font: inherit;
+            text-align: inherit;
+
+            transition: 0.2s ease;
+        }
+
+        .profile-button:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+
+        /* Avatar */
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+            display: block;
+        }
+
+
+        /* Default Avatar */
+
+        .profile-default-avatar {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #374151;
+            color: white;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+
+        /* Profile Name */
+
+        .profile-name {
+            max-width: 130px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            color: #f9fafb;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-arrow {
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           PROFILE DROPDOWN
+        ========================= */
+
+        .profile-dropdown {
+            position: absolute;
+
+            top: calc(100% + 12px);
+            right: 0;
+
+            width: 245px;
+
+            padding: 8px;
+
+            background: white;
+            color: #111827;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,0.15);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transform: translateY(-8px);
+
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease,
+                visibility 0.2s ease;
+
+            z-index: 2000;
+        }
+
+        .profile-menu:hover .profile-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-menu.is-open .profile-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+
+        /* Profile Information */
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border-bottom: 1px solid #f3f4f6;
+
+            margin-bottom: 6px;
+        }
+
+
+        .profile-info-avatar {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-info-default {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #111827;
+            color: white;
+
+            font-weight: 700;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-info-text {
+            min-width: 0;
+        }
+
+        .profile-info-name {
+            display: block;
+
+            color: #111827;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-info-phone {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        /* Dropdown Links */
+
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 10px 12px;
+
+            border-radius: 9px;
+
+            color: #374151;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        .profile-dropdown a:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .profile-dropdown .logout-link {
+            color: #dc2626;
+        }
+
+        .profile-dropdown .logout-link:hover {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+            display: inline-block;
+
+            padding: 10px 18px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #111827;
+            color: white;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Reusable actions: use these classes for links and native buttons alike. */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px 18px;
+            border: 1px solid transparent;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.2;
+            cursor: pointer;
+            transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+
+        .button-dark { background: #232f3e; border-color: #232f3e; color: #fff; }
+        .button-dark:hover { background: #111827; border-color: #111827; box-shadow: 0 7px 18px rgba(17, 24, 39, .16); transform: translateY(-1px); }
+        .button-light { background: #fff; border-color: #d1d5db; color: #232f3e; }
+        .button-light:hover { background: #f9fafb; border-color: #9ca3af; transform: translateY(-1px); }
+        .language-toggle { min-height: 36px; padding: 7px 11px; border: 1px solid var(--border); border-radius: 8px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 700; cursor: pointer; }
+        .language-toggle:hover { border-color: #9ca3af; background: #f9fafb; }
+        html[dir="rtl"] body { text-align: right; }
+        html[dir="rtl"] .profile-dropdown { right: auto; left: 0; }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            background: #111827;
+            color: #9ca3af;
+
+            text-align: center;
+
+            padding: 25px 0;
+
+            margin-top: 50px;
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .container {
+                width: min(94%, 700px);
+            }
+
+            .navbar-content {
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .profile-name {
+                display: none;
+            }
+
+            .profile-button {
+                padding: 4px;
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 10px 0;
+            }
+
+            .navbar-content {
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                gap: 8px;
+            }
+
+            .nav-links > li > a {
+                font-size: 12px;
+            }
+
+            .profile-arrow {
+                display: none;
+            }
+
+            .profile-dropdown {
+                right: -5px;
+                width: min(245px, 85vw);
+            }
+
+            main {
+                padding: 25px 0;
+            }
+
+            .footer {
+                margin-top: 30px;
+                padding: 20px 0;
+                font-size: 13px;
+            }
+
+        }
+
+
+        /* =========================
+           SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 430px) {
+
+            .navbar-content {
+                align-items: center;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-links > li > a {
+                display: none;
+            }
+
+            .nav-links {
+                gap: 5px;
+            }
+
+            .profile-avatar,
+            .profile-default-avatar {
+                width: 36px;
+                height: 36px;
+            }
+
+        }
+
+        /* Shared marketplace visual system */
+        :root { --brand: #ef4056; --ink: #232f3e; --muted: #6b7280; --surface: #fff; --page: #f4f5f7; --border: #e0e0e2; }
+        body { background: var(--page); color: var(--ink); font-family: Vazirmatn, IRANSans, Arial, sans-serif; }
+        .navbar { padding: 0; background: var(--surface); color: var(--ink); border-top: 3px solid var(--brand); box-shadow: 0 1px 8px rgba(0, 0, 0, .08); }
+        .navbar-content { min-height: 64px; }
+        .logo { color: var(--brand); font-size: 24px; letter-spacing: -.4px; }
+        .nav-links > li > a { color: #4b5563; font-weight: 600; }
+        .nav-links > li > a:hover { color: var(--brand); }
+        .profile-button { border-color: var(--border); background: #fafafa; color: var(--ink); }
+        .profile-button:hover { background: #f5f5f5; }
+        .profile-name { color: var(--ink); }
+        .profile-default-avatar, .profile-info-default { background: var(--brand); }
+        main { padding: 32px 0 46px; }
+        .footer { margin-top: 0; background: #fff; color: var(--muted); border-top: 1px solid var(--border); }
+        a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid rgba(239, 64, 86, .25); outline-offset: 2px; }
+        @media (max-width: 600px) {
+            .navbar-content { min-height: 56px; flex-wrap: wrap; }
+            .nav-links { gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+            .nav-links > li > a { font-size: 11px; }
+            .language-toggle { min-height: 34px; padding: 6px 9px; font-size: 11px; }
+            main { padding: 20px 0 30px; }
+        }
+
+        /* Stable header: changing language must never rearrange its actions. */
+        .navbar, .navbar-content, .nav-links { direction: ltr; }
+        .navbar-content { display: flex; justify-content: space-between; gap: 20px; }
+        .logo { flex: 0 0 auto; }
+        .nav-links { margin-left: auto; gap: 8px; }
+        .nav-links > li > a, .language-toggle, .profile-button { min-height: 38px; }
+        .nav-links > li > a { display: inline-flex; align-items: center; padding: 7px 10px; border-radius: 8px; white-space: nowrap; }
+        .nav-links > li > a:hover { background: #f5f5f5; }
+        .navbar .profile-dropdown { right: 0; left: auto; direction: ltr; text-align: left; }
+        body[data-language="fa"] main { direction: rtl; text-align: right; }
+        body[data-language="en"] main { direction: ltr; text-align: left; }
+
+        @media (max-width: 600px) {
+            .navbar-content { display: grid; grid-template-columns: 1fr; gap: 7px; padding: 8px 0 10px; }
+            .logo { justify-self: center; font-size: 20px; }
+            .nav-links { width: 100%; margin: 0; justify-content: center; gap: 5px; }
+            .nav-links > li > a { display: inline-flex; min-height: 34px; padding: 5px 7px; font-size: 11px; }
+            .language-toggle { min-height: 34px; }
+            .profile-dropdown { top: calc(100% + 6px); width: min(260px, calc(100vw - 24px)); }
+        }
+
+        @media (max-width: 430px) {
+            .nav-links > li > a { display: inline-flex; }
+        }
+
+    </style>
+
+
+    {% block extra_css %}
+    {% endblock %}
+
+    <style>
+        /* Theme layer: it is deliberately loaded after page styles. */
+        :root {
+            --theme-page: #f4f6fb;
+            --theme-surface: rgba(255, 255, 255, .78);
+            --theme-solid: #ffffff;
+            --theme-text: #1f2937;
+            --theme-muted: #6b7280;
+            --theme-border: rgba(148, 163, 184, .28);
+            --theme-shadow: 0 14px 38px rgba(15, 23, 42, .08);
+            --theme-accent: #ef4056;
+        }
+
+        html[data-theme="dark"] {
+            color-scheme: dark;
+            --theme-page: #111827;
+            --theme-surface: rgba(30, 41, 59, .72);
+            --theme-solid: #1e293b;
+            --theme-text: #f8fafc;
+            --theme-muted: #cbd5e1;
+            --theme-border: rgba(148, 163, 184, .25);
+            --theme-shadow: 0 16px 42px rgba(0, 0, 0, .28);
+            --theme-accent: #fb7185;
+        }
+
+        body {
+            position: relative;
+            background:
+                radial-gradient(circle at 8% 8%, rgba(239, 64, 86, .12), transparent 25rem),
+                radial-gradient(circle at 92% 18%, rgba(96, 165, 250, .11), transparent 28rem),
+                var(--theme-page);
+            color: var(--theme-text);
+            transition: background .25s ease, color .25s ease;
+        }
+
+        .theme-toggle,
+        .language-toggle {
+            display: inline-grid;
+            width: 38px;
+            min-height: 38px;
+            place-items: center;
+            padding: 0;
+            border: 1px solid var(--theme-border);
+            border-radius: 10px;
+            background: var(--theme-surface);
+            color: var(--theme-text);
+            box-shadow: 0 3px 10px rgba(15, 23, 42, .06);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: transform .2s ease, background .2s ease, border-color .2s ease;
+        }
+
+        .language-toggle {
+            width: auto;
+            min-width: 54px;
+            padding: 0 10px;
+        }
+
+        .theme-toggle:hover,
+        .language-toggle:hover {
+            transform: translateY(-1px);
+            border-color: var(--theme-accent);
+        }
+
+        .navbar,
+        .footer,
+        .profile-dropdown {
+            background: var(--theme-surface);
+            border-color: var(--theme-border);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav-links > li > a,
+        .logo,
+        .profile-name,
+        .profile-dropdown a,
+        .profile-button {
+            color: var(--theme-text);
+        }
+
+        .profile-button,
+        .profile-button:hover {
+            background: var(--theme-surface);
+            border-color: var(--theme-border);
+        }
+
+        .product-card,
+        .product-detail,
+        .cart-item,
+        .cart-summary,
+        .empty-cart,
+        .empty-products,
+        .auth-card,
+        .register-card,
+        .profile-card,
+        .edit-profile-card {
+            background: var(--theme-surface);
+            border-color: var(--theme-border);
+            box-shadow: var(--theme-shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .product-image,
+        .product-detail-image,
+        .cart-item-image,
+        .product-description-section,
+        .info-box,
+        .profile-preview {
+            background: color-mix(in srgb, var(--theme-solid) 82%, transparent);
+            border-color: var(--theme-border);
+        }
+
+        main h1,
+        main h2,
+        main h3,
+        main .price,
+        main .main-price,
+        main .cart-item-price,
+        main .summary-total,
+        main .info-value {
+            color: var(--theme-text);
+        }
+
+        main p,
+        main .category,
+        main .product-description,
+        main .cart-item-unit-price,
+        main .info-label {
+            color: var(--theme-muted);
+        }
+
+        main input,
+        main textarea,
+        main select {
+            background: var(--theme-solid);
+            color: var(--theme-text);
+            border-color: var(--theme-border);
+        }
+
+        html[data-theme="dark"] .product-image,
+        html[data-theme="dark"] .product-detail-image,
+        html[data-theme="dark"] .cart-item-image,
+        html[data-theme="dark"] .quantity-button {
+            background: rgba(15, 23, 42, .48);
+        }
+
+        html[data-theme="dark"] .old-price,
+        html[data-theme="dark"] .profile-info-phone {
+            color: #94a3b8;
+        }
+
+        @media (max-width: 600px) {
+            .theme-toggle,
+            .language-toggle {
+                min-height: 34px;
+                border-radius: 8px;
+            }
+
+            .theme-toggle { width: 34px; }
+            .language-toggle { min-width: 50px; }
+            .product-card,
+            .cart-item,
+            .auth-card,
+            .register-card { backdrop-filter: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition-duration: .01ms !important; }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <nav class="navbar">
+
+        <div class="container navbar-content">
+
+
+            <!-- Logo -->
+
+            <a
+                href="{% url 'home' %}"
+                class="logo"
+            >
+                My Store / فروشگاه من
+            </a>
+
+
+            <!-- Navigation -->
+
+            <ul class="nav-links">
+
+
+                <li>
+
+                    <a href="{% url 'home' %}">
+                        Home / خانه
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'home' %}#products">
+                        Products / محصولات
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'cart' %}">
+                        Cart / سبد خرید
+                    </a>
+
+                </li>
+
+                <li>
+                    <button
+                        type="button"
+                        class="language-toggle"
+                        id="language-toggle"
+                        aria-label="Change language"
+                    >
+                        English
+                    </button>
+                </li>
+
+                <li>
+                    <button
+                        type="button"
+                        class="theme-toggle"
+                        id="theme-toggle"
+                        aria-label="Switch to dark mode"
+                    >
+                        ☾
+                    </button>
+                </li>
+
+
+                {% if user.is_authenticated %}
+
+
+                    <!-- Profile -->
+
+                    <li class="profile-menu">
+
+
+                        <button
+                            type="button"
+                            class="profile-button"
+                            aria-expanded="false"
+                            aria-controls="profile-dropdown"
+                        >
+
+
+                            {% if user.profile_image %}
+
+                                <img
+                                    src="{{ user.profile_image.url }}"
+                                    alt="Profile"
+                                    class="profile-avatar"
+                                >
+
+                            {% else %}
+
+                                <div class="profile-default-avatar">
+
+                                    {{ user.phone_number|first|upper }}
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <span class="profile-name">
+
+                                {% if user.first_name %}
+
+                                    {{ user.first_name }}
+
+                                {% else %}
+
+                                    {{ user.phone_number }}
+
+                                {% endif %}
+
+                            </span>
+
+
+                            <span class="profile-arrow">
+                                ▼
+                            </span>
+
+
+                        </button>
+
+
+                        <!-- Dropdown -->
+
+                        <div
+                            class="profile-dropdown"
+                            id="profile-dropdown"
+                        >
+
+
+                            <!-- User Info -->
+
+                            <div class="profile-info">
+
+
+                                {% if user.profile_image %}
+
+                                    <img
+                                        src="{{ user.profile_image.url }}"
+                                        alt="Profile"
+                                        class="profile-info-avatar"
+                                    >
+
+                                {% else %}
+
+                                    <div class="profile-info-default">
+
+                                        {{ user.phone_number|first|upper }}
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <div class="profile-info-text">
+
+
+                                    <span class="profile-info-name">
+
+                                        {% if user.first_name or user.last_name %}
+
+                                            {{ user.first_name }}
+                                            {{ user.last_name }}
+
+                                        {% else %}
+
+                                            User
+
+                                        {% endif %}
+
+                                    </span>
+
+
+                                    <span class="profile-info-phone">
+
+                                        {{ user.phone_number }}
+
+                                    </span>
+
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Profile -->
+
+                            <a href="{% url 'profile' %}">
+                                👤
+                                My Profile / پروفایل من
+                            </a>
+
+
+                            <!-- Edit -->
+
+                            <a href="{% url 'edit' %}">
+                                ⚙️
+                                Edit Profile / ویرایش پروفایل
+                            </a>
+
+
+                            <!-- Cart -->
+
+                            <a href="{% url 'cart' %}">
+                                🛒
+                                My Cart / سبد خرید من
+                            </a>
+
+
+                            <!-- Logout -->
+
+                            <a
+                                href="{% url 'logout' %}"
+                                class="logout-link"
+                            >
+                                🚪
+                                Logout / خروج
+                            </a>
+
+
+                        </div>
+
+                    </li>
+
+
+                {% else %}
+
+
+                    <!-- Guest -->
+
+                    <li>
+
+                        <a href="{% url 'login' %}">
+                            Login / ورود
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="{% url 'signup' %}">
+                            Register / ثبت‌نام
+                        </a>
+
+                    </li>
+
+
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+        <div class="container">
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 My Store. All rights reserved. / تمامی حقوق محفوظ است.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+<script>
+    (function () {
+        var bilingualNodes = [];
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        var node;
+
+        while ((node = walker.nextNode())) {
+            var source = node.nodeValue;
+            var trimmed = source.trim();
+            var divider = ' / ';
+            var splitAt = trimmed.indexOf(divider);
+
+            if (splitAt === -1) {
+                continue;
+            }
+
+            var english = trimmed.slice(0, splitAt);
+            var persian = trimmed.slice(splitAt + divider.length);
+
+            if (!english || !persian || !/[\u0600-\u06ff]/.test(persian)) {
+                continue;
+            }
+
+            bilingualNodes.push({
+                node: node,
+                english: english,
+                persian: persian,
+                prefix: source.slice(0, source.indexOf(trimmed)),
+                suffix: source.slice(source.indexOf(trimmed) + trimmed.length)
+            });
+        }
+
+        function setLanguage(language) {
+            var isPersian = language === 'fa';
+            document.documentElement.lang = language;
+            document.documentElement.dir = 'ltr';
+            document.body.dataset.language = language;
+            localStorage.setItem('store-language', language);
+
+            bilingualNodes.forEach(function (entry) {
+                entry.node.nodeValue = entry.prefix + (isPersian ? entry.persian : entry.english) + entry.suffix;
+            });
+
+            var toggle = document.getElementById('language-toggle');
+            if (toggle) {
+                toggle.textContent = isPersian ? 'English' : 'فارسی';
+                toggle.setAttribute('aria-label', isPersian ? 'Switch to English' : 'تغییر زبان به فارسی');
+            }
+        }
+
+        var initialLanguage = localStorage.getItem('store-language') || 'fa';
+        setLanguage(initialLanguage);
+
+        function setTheme(theme) {
+            var isDark = theme === 'dark';
+            document.documentElement.dataset.theme = theme;
+            localStorage.setItem('store-theme', theme);
+
+            var themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.textContent = isDark ? '☀' : '☾';
+                themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+                themeToggle.setAttribute('title', isDark ? 'Light mode' : 'Dark mode');
+            }
+        }
+
+        var initialTheme = localStorage.getItem('store-theme') || 'light';
+        setTheme(initialTheme);
+
+        var toggle = document.getElementById('language-toggle');
+        if (toggle) {
+            toggle.addEventListener('click', function () {
+                setLanguage(document.documentElement.lang === 'fa' ? 'en' : 'fa');
+            });
+        }
+
+        var themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function () {
+                setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+            });
+        }
+
+        var profileMenu = document.querySelector('.profile-menu');
+        var profileButton = document.querySelector('.profile-button');
+
+        if (profileMenu && profileButton) {
+            profileButton.addEventListener('click', function (event) {
+                event.stopPropagation();
+                var isOpen = profileMenu.classList.toggle('is-open');
+                profileButton.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!profileMenu.contains(event.target)) {
+                    profileMenu.classList.remove('is-open');
+                    profileButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    profileMenu.classList.remove('is-open');
+                    profileButton.setAttribute('aria-expanded', 'false');
+                    profileButton.focus();
+                }
+            });
+        }
+    }());
+</script>
+
+</body>
+
+</html>
