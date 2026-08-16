@@ -95,7 +95,24 @@ Create a `.env` file and keep sensitive values such as `SECRET_KEY` outside Git.
 
 > Never commit your real Django `SECRET_KEY` to a public repository.
 
-### 5. Apply migrations
+### 5. Create migrations for each local app
+
+This project uses multiple Django apps. When you make model changes, create migrations for the app whose models changed. For example:
+
+```bash
+python manage.py makemigrations accouants
+python manage.py makemigrations app
+python manage.py makemigrations cart
+python manage.py makemigrations profile
+```
+
+You can also run `makemigrations` without an app name to detect changes across all installed apps:
+
+```bash
+python manage.py makemigrations
+```
+
+Then apply all migrations to the database:
 
 ```bash
 python manage.py migrate
