@@ -1,103 +1,107 @@
-# 🛒 Django Store
+# 🛒 فروشگاه Django
 
-> A modern, responsive e-commerce project built with Django — created as a practical portfolio project.
+> یک فروشگاه اینترنتی Responsive و دو زبانه که با Django ساخته شده و به‌عنوان یک پروژه عملی و نمونه‌کار توسعه داده شده است.
 
 ![Django](https://img.shields.io/badge/Django-6.1-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Pillow](https://img.shields.io/badge/Pillow-11.1.0-3776AB?style=for-the-badge)
 
-## ✨ About
+---
 
-**Django Store** is a full-stack e-commerce project built with Django. The project focuses on clean architecture, reusable templates, user authentication, product management, profiles, and a functional shopping cart.
+## ✨ درباره پروژه
 
-It is designed as a learning and portfolio project and can be extended with orders, checkout, payment gateways, REST APIs, and production deployment.
+**Django Store** یک پروژه فروشگاه اینترنتی Full-Stack ساخته‌شده با Django است.
 
-## 🚀 Features
+تمرکز پروژه روی پیاده‌سازی مفاهیم واقعی توسعه وب مانند مدیریت کاربران، محصولات، دسته‌بندی‌ها، پروفایل، احراز هویت و منطق سبد خرید است.
 
-- 🛍️ Product catalog
-- 🗂️ Product categories
-- 🔎 Product detail pages
-- 💰 Product pricing and discounts
-- 📦 Stock management
-- 🛒 Shopping cart
-- ➕ Increase cart quantity
-- ➖ Decrease cart quantity
-- ❌ Remove products from cart
-- 👤 Custom user account
-- 🔐 User authentication
-- 🖼️ Profile image support
-- ✏️ Profile editing
-- 📱 Responsive interface
-- 🌐 Persian / English language support
-- 🌓 Light / dark theme support
-- ⚙️ Django Admin for managing products and categories
+این پروژه به‌عنوان یک پروژه آموزشی و نمونه‌کار ساخته شده و در آینده می‌توان امکاناتی مانند سفارش، Checkout، پرداخت و API را به آن اضافه کرد.
 
-## 🧰 Tech Stack
+## 🚀 امکانات
 
-| Technology | Usage |
+- 🛍️ نمایش محصولات
+- 🗂️ دسته‌بندی محصولات
+- 🔎 صفحه جزئیات محصول
+- 💰 قیمت و تخفیف محصولات
+- 📦 مدیریت موجودی
+- 🛒 سبد خرید
+- ➕ افزایش تعداد محصول
+- ➖ کاهش تعداد محصول
+- ❌ حذف محصول از سبد خرید
+- 👤 سیستم کاربری اختصاصی
+- 🔐 ثبت‌نام و ورود کاربران
+- 🖼️ تصویر پروفایل
+- ✏️ ویرایش پروفایل
+- 📱 طراحی Responsive
+- 🌐 پشتیبانی فارسی و انگلیسی
+- 🌓 حالت روشن و تاریک
+- ⚙️ مدیریت محصولات و دسته‌بندی‌ها از طریق Django Admin
+
+## 🧰 تکنولوژی‌ها
+
+| تکنولوژی | کاربرد |
 |---|---|
-| 🐍 Python | Backend programming |
-| 🎯 Django 6.1 | Web framework |
-| 🔌 Django REST Framework | API development |
-| 🖼️ Pillow | Image handling |
-| 🌐 HTML | Templates |
-| 🎨 CSS | UI and responsive design |
-| ⚡ JavaScript | Frontend interactions |
-| 🗄️ SQLite | Development database |
+| 🐍 Python | Backend |
+| 🎯 Django 6.1 | Web Framework |
+| 🔌 Django REST Framework | توسعه API |
+| 🖼️ Pillow | مدیریت تصاویر |
+| 🌐 HTML | قالب‌ها |
+| 🎨 CSS | طراحی رابط کاربری |
+| ⚡ JavaScript | تعاملات Frontend |
+| 🗄️ SQLite | پایگاه داده توسعه |
 
-## 📁 Project Structure
+## 📁 ساختار پروژه
 
 ```text
 Django_store/
-├── accouants/          # Custom user / authentication
-├── app/                # Products and categories
-├── cart/               # Shopping cart
-├── profile/            # Profile-related pages
-├── project_django/     # Main Django configuration
+├── accouants/          # کاربران و احراز هویت
+├── app/                # محصولات و دسته‌بندی‌ها
+├── cart/               # سبد خرید
+├── profile/            # پروفایل کاربران
+├── project_django/     # تنظیمات اصلی Django
 ├── manage.py
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-## ⚙️ Installation
+## ⚙️ نصب و اجرا
 
-### 1. Clone the repository
+### 1. دریافت پروژه
 
 ```bash
 git clone https://github.com/ayobbarnva/Django_store.git
 cd Django_store
 ```
 
-### 2. Create a virtual environment
+### 2. ساخت محیط مجازی
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-On Windows:
+در Windows:
 
 ```powershell
 .venv\Scripts\activate
 ```
 
-### 3. Install dependencies
+### 3. نصب وابستگی‌ها
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+### 4. تنظیم متغیرهای محیطی
 
-Create a `.env` file and keep sensitive values such as `SECRET_KEY` outside Git.
+یک فایل `.env` بسازید و اطلاعات حساس مانند `SECRET_KEY` را داخل آن قرار دهید.
 
-> Never commit your real Django `SECRET_KEY` to a public repository.
+> ⚠️ کلید واقعی Django را داخل Repository عمومی قرار ندهید.
 
-### 5. Create migrations for each local app
+## 🗄️ Migration
 
-This project uses multiple Django apps. When you make model changes, create migrations for the app whose models changed. For example:
+این پروژه از چند Django App تشکیل شده است. در صورت تغییر Modelهای هر App می‌توانید Migration همان App را جداگانه ایجاد کنید:
 
 ```bash
 python manage.py makemigrations accouants
@@ -106,37 +110,37 @@ python manage.py makemigrations cart
 python manage.py makemigrations profile
 ```
 
-You can also run `makemigrations` without an app name to detect changes across all installed apps:
+یا برای بررسی همه Appها به‌صورت یکجا:
 
 ```bash
 python manage.py makemigrations
 ```
 
-Then apply all migrations to the database:
+سپس Migrationها را روی Database اعمال کنید:
 
 ```bash
 python manage.py migrate
 ```
 
-### 6. Create an admin user
+## 👤 ساخت کاربر ادمین
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. Run the development server
+## ▶️ اجرای پروژه
 
 ```bash
 python manage.py runserver
 ```
 
-Then open:
+سپس وارد شوید:
 
 ```text
 http://127.0.0.1:8000/
 ```
 
-## 🛒 Shopping Cart Flow
+## 🛒 روند سبد خرید
 
 ```text
 Product
@@ -144,29 +148,29 @@ Product
 Add to Cart
    ↓
 Cart
-   ├── Increase quantity
-   ├── Decrease quantity
-   └── Remove item
+   ├── ➕ افزایش تعداد
+   ├── ➖ کاهش تعداد
+   └── ❌ حذف محصول
 ```
 
-## 🔮 Planned Improvements
+## 🔮 امکانات آینده
 
-- 💳 Payment gateway integration
-- 📋 Order and checkout system
-- 📦 Order history
+- 💳 اتصال درگاه پرداخت
+- 📋 سیستم Order و Checkout
+- 📦 تاریخچه سفارش‌ها
 - ❤️ Wishlist
-- 🔍 Advanced product search and filtering
-- 🔌 Complete REST API
-- 🧪 Automated tests
-- 🚀 Production deployment
-- 🔐 Environment-based production settings
+- 🔍 جستجو و فیلتر پیشرفته محصولات
+- 🔌 API کامل
+- 🧪 تست‌های خودکار
+- 🚀 Deploy روی سرور
+- 🔐 تنظیمات Production
 
-## 🎯 Project Goal
+## 🎯 هدف پروژه
 
-This project is part of my journey in learning and building real-world Django applications, with a focus on backend development, authentication, database design, e-commerce logic, and clean user interfaces.
+این پروژه بخشی از مسیر یادگیری و ساخت پروژه‌های واقعی با Django است و روی Backend، Authentication، طراحی Database، منطق فروشگاه و طراحی رابط کاربری تمرکز دارد.
 
-## 👨‍💻 Author
+## 👨‍💻 سازنده
 
 **Ayoob Barnva** — [@ayobbarnva](https://github.com/ayobbarnva)
 
-If you find the project useful, feel free to ⭐ the repository.
+⭐ اگر پروژه برایتان مفید بود، خوشحال می‌شوم به Repository Star بدهید.
