@@ -1,6 +1,12 @@
+<div dir="rtl">
+
 # 🛒 Django Store
 
-> یک فروشگاه اینترنتی مدرن، Responsive و دو زبانه ساخته‌شده با Django.
+**یک فروشگاه اینترنتی مدرن، Responsive و دو زبانه ساخته‌شده با Django**
+
+</div>
+
+🇬🇧 [English](README.md) | 🇮🇷 **فارسی**
 
 ## ✨ درباره پروژه
 
