@@ -160,3 +160,7 @@ This project is part of my journey in building real-world Django applications, f
 **Ayoob Barnva** — [@ayobbarnva](https://github.com/ayobbarnva)
 
 ⭐ If you find the project useful, give it a star.
+
+## AI Usage Disclosure
+
+AI was used only to assist with writing and formatting this README. All source code and implementation were written by the author.
